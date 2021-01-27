@@ -13,13 +13,10 @@
 #ifndef CUB3D_H
 # define CUB3D_H
 
-# include <stdarg.h>
-# include "libft/libft.h"
-# include "mlx_mms/mlx.h"
-# include <stdio.h>
 # include <fcntl.h>
 # include <math.h>
-# include <sys/stat.h>
+# include "libft/libft.h"
+# include "mlx_mms/mlx.h"
 # define BASE_DEC "0123456789"
 # define BASE_HEX "0123456789ABCDEF"
 
