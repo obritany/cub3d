@@ -3,30 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlcat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aberry <aberry@student.42.fr>              +#+  +:+       +#+        */
+/*   By: obritany <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/10/28 18:40:27 by aberry            #+#    #+#             */
-/*   Updated: 2020/10/29 21:37:19 by aberry           ###   ########.fr       */
+/*   Created: 2020/11/07 17:47:18 by obritany          #+#    #+#             */
+/*   Updated: 2020/11/07 17:48:03 by obritany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-size_t		ft_strlcat(char *dst, const char *src, size_t dstsize)
+size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)
 {
-	size_t i;
-	size_t j;
+	size_t dst_len;
+	size_t trg_len;
 
-	i = 0;
-	j = 0;
-	while (dst[i] && i < dstsize)
-		i++;
-	while (src[j] && (i + j + 1) < dstsize)
-	{
-		dst[i + j] = src[j];
-		j++;
-	}
-	if (i < dstsize)
-		dst[i + j] = '\0';
-	return (i + ft_strlen(src));
+	dst_len = ft_strlen(dst);
+	dst += dst_len;
+	if (dst_len < dstsize)
+		trg_len = dst_len + ft_strlcpy(dst, src, (dstsize - dst_len));
+	else
+		trg_len = dstsize + ft_strlen(src);
+	return (trg_len);
 }

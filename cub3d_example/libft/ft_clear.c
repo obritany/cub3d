@@ -3,22 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   ft_clear.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aberry <aberry@student.42.fr>              +#+  +:+       +#+        */
+/*   By: obritany <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/23 21:40:44 by aberry            #+#    #+#             */
-/*   Updated: 2020/11/24 17:48:57 by aberry           ###   ########.fr       */
+/*   Created: 2021/01/27 17:17:01 by obritany          #+#    #+#             */
+/*   Updated: 2021/01/27 17:17:19 by obritany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char			**ft_clear(char **tab)
+char	**ft_clear(char **tab)
 {
 	unsigned int	i;
 
+	if (!tab)
+		return (0);
 	i = 0;
 	while (tab[i])
 		free(tab[i++]);
 	free(tab);
-	return (NULL);
+	return (0);
 }

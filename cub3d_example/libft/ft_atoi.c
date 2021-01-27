@@ -3,43 +3,40 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aberry <aberry@student.42.fr>              +#+  +:+       +#+        */
+/*   By: obritany <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/10/30 17:31:24 by aberry            #+#    #+#             */
-/*   Updated: 2020/11/23 22:13:27 by aberry           ###   ########.fr       */
+/*   Created: 2020/11/07 16:36:13 by obritany          #+#    #+#             */
+/*   Updated: 2020/11/07 16:38:41 by obritany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	ft_isspace(int c)
+int	ft_atoi(const char *str)
 {
-	if (c == '\t' || c == '\n' || c == '\v' ||
-		c == '\f' || c == '\r' || c == ' ')
-		return (1);
-	else
-		return (0);
-}
+	unsigned long long	pre_max;
+	unsigned long long	rslt;
+	int					sign;
+	int					i;
 
-int			ft_atoi(const char *str)
-{
-	size_t	b;
-	int		c;
-	size_t	i;
-
-	b = 0;
-	c = 0;
+	pre_max = 922337203685477580;
+	rslt = 0;
+	sign = 1;
 	i = 0;
-	while (ft_isspace(*str))
-		str++;
-	c = (*str == '-') ? -1 : 1;
-	if (*str == '-' || *str == '+')
-		str++;
-	while (ft_isdigit(*str))
+	while ((str[i] >= '\t' && str[i] <= '\r') || str[i] == ' ')
+		i++;
+	if (str[i] == '-' || str[i] == '+')
+		if (str[i++] == '-')
+			sign = -1;
+	while (str[i] >= '0' && str[i] <= '9')
 	{
-		if ((i++ > 17) && ((*str - '0' > 7 && b == MAX) || b > MAX))
-			return (c == 1 ? -1 : 0);
-		b = b * 10 + *str++ - '0';
+		if (sign == 1)
+			if (rslt > pre_max || (rslt == pre_max && str[i] > '7'))
+				return (-1);
+		if (sign == -1)
+			if (rslt > pre_max || (rslt == pre_max && str[i] > '8'))
+				return (0);
+		rslt = (rslt * 10) + (str[i++] - '0');
 	}
-	return ((int)b * c);
+	return (rslt * sign);
 }

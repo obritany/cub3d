@@ -1,3 +1,15 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: obritany <marvin@42.fr>                    +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2021/01/27 17:37:57 by obritany          #+#    #+#              #
+#    Updated: 2021/01/27 17:37:59 by obritany         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 #SETUP
 NAME		= cub3d
 CC			= gcc
@@ -39,7 +51,7 @@ all:		$(NAME)
 $(NAME):	$(LIBFT) $(MLX) $(OBJS)
 			mv $(LIBFT_DIR)$(LIBFT) $(LIBFT)
 			mv $(MLX_DIR)$(MLX) $(MLX)
-			$(CC) $(CFLAGS) $(LIBFT) $(MLX) $(CFLAGS_APP) $(OBJS) -o $(NAME)
+			$(CC) $(CFLAGS) $(CFLAGS_APP) $(LIBFT) $(MLX) $(OBJS) -o $(NAME)
 
 $(LIBFT):
 			$(MAKE) -C $(LIBFT_DIR)

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_isascii.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aberry <aberry@student.42.fr>              +#+  +:+       +#+        */
+/*   By: obritany <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/10/30 17:06:33 by aberry            #+#    #+#             */
-/*   Updated: 2020/11/04 19:23:07 by aberry           ###   ########.fr       */
+/*   Created: 2020/11/07 16:41:22 by obritany          #+#    #+#             */
+/*   Updated: 2020/11/07 16:41:31 by obritany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int		ft_isascii(int c)
+int	ft_isascii(int c)
 {
-	return (c > -1 && c < 128);
+	return (c >= 0 && c <= 127);
 }

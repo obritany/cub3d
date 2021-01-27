@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstmap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aberry <aberry@student.42.fr>              +#+  +:+       +#+        */
+/*   By: obritany <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/03 19:29:45 by aberry            #+#    #+#             */
-/*   Updated: 2020/11/03 20:25:37 by aberry           ###   ########.fr       */
+/*   Created: 2020/11/07 16:50:56 by obritany          #+#    #+#             */
+/*   Updated: 2020/11/15 12:19:43 by obritany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,22 @@
 
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 {
-	t_list *copy_list;
-	t_list *cp_list;
+	t_list *rslt;
+	t_list *temp;
 
-	copy_list = NULL;
-	while (lst && f)
+	if (!f)
+		return (0);
+	rslt = 0;
+	while (lst)
 	{
-		if (!(cp_list = ft_lstnew(f(lst->content))))
+		temp = ft_lstnew(f(lst->content));
+		if (temp == 0)
 		{
-			ft_lstclear(&copy_list, del);
-			return (NULL);
+			ft_lstclear(&rslt, del);
+			return (0);
 		}
-		ft_lstadd_back(&copy_list, cp_list);
+		ft_lstadd_back(&rslt, temp);
 		lst = lst->next;
 	}
-	return (copy_list);
+	return (rslt);
 }

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_isprint.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aberry <aberry@student.42.fr>              +#+  +:+       +#+        */
+/*   By: obritany <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/10/30 17:08:12 by aberry            #+#    #+#             */
-/*   Updated: 2020/11/04 20:13:15 by aberry           ###   ########.fr       */
+/*   Created: 2020/11/07 16:41:59 by obritany          #+#    #+#             */
+/*   Updated: 2020/11/07 16:42:07 by obritany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int		ft_isprint(int c)
+int	ft_isprint(int c)
 {
-	return (c > 31 && c < 127);
+	return (c >= 32 && c <= 126);
 }

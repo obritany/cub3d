@@ -1,24 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strchr.c                                        :+:      :+:    :+:   */
+/*   ft_utoa_base.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: obritany <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/07 17:44:25 by obritany          #+#    #+#             */
-/*   Updated: 2020/11/07 17:55:24 by obritany         ###   ########.fr       */
+/*   Created: 2020/12/02 21:49:40 by obritany          #+#    #+#             */
+/*   Updated: 2020/12/02 21:49:42 by obritany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strchr(const char *s, int c)
+char	*ft_utoa_base(unsigned long n, unsigned int base, char type)
 {
-	if (!s)
+	char			*rslt;
+	unsigned long	tmp;
+	size_t			len;
+	char			*nums;
+
+	nums = "0123456789abcdef";
+	if (type == 'i')
+		n = (unsigned int)n;
+	tmp = n;
+	len = 1;
+	while ((tmp = tmp / base))
+		len++;
+	if ((rslt = malloc(sizeof(char) * (len + 1))) == 0)
 		return (0);
-	while (*s && (*s != (char)c))
-		s++;
-	if (*s == (char)c)
-		return ((char *)s);
-	return (0);
+	rslt[len] = '\0';
+	while (len--)
+	{
+		rslt[len] = nums[n % base];
+		n = n / base;
+	}
+	return (rslt);
 }

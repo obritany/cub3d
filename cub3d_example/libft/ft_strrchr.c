@@ -3,29 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aberry <aberry@student.42.fr>              +#+  +:+       +#+        */
+/*   By: obritany <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/10/29 14:12:39 by aberry            #+#    #+#             */
-/*   Updated: 2020/10/29 15:02:52 by aberry           ###   ########.fr       */
+/*   Created: 2020/11/07 17:51:13 by obritany          #+#    #+#             */
+/*   Updated: 2020/11/07 17:55:44 by obritany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strrchr(const char *str, int ch)
+char	*ft_strrchr(const char *s, int c)
 {
-	char	*st;
-	char	*node;
+	char *ptr;
 
-	st = (char *)str;
-	node = NULL;
-	if (ch == '\0')
-		return ((char*)st + ft_strlen(st));
-	while (*st)
+	ptr = (char*)s + ft_strlen(s);
+	while (ptr >= s)
 	{
-		if (*st == (char)ch)
-			node = st;
-		st++;
+		if (*ptr == (char)c)
+			return (ptr);
+		ptr--;
 	}
-	return ((char*)node);
+	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aberry <aberry@student.42.fr>              +#+  +:+       +#+        */
+/*   By: obritany <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/10/30 18:35:04 by aberry            #+#    #+#             */
-/*   Updated: 2020/11/04 00:31:08 by aberry           ###   ########.fr       */
+/*   Created: 2020/11/07 17:52:33 by obritany          #+#    #+#             */
+/*   Updated: 2020/11/07 17:53:56 by obritany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,29 @@
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
-	char		*arr;
-	size_t		i;
+	char	*rslt;
+	char	*temp;
+	size_t	slen;
+	size_t	rlen;
 
-	i = 0;
 	if (!s)
-		return (NULL);
-	if ((size_t)start >= ft_strlen(s))
+		return (0);
+	slen = ft_strlen(s);
+	if (start >= slen)
 		return (ft_strdup(""));
-	if (len > ft_strlen(s) - (size_t)start)
-		len = ft_strlen(s) - (size_t)start;
-	if (!(arr = (char *)malloc(len + 1)))
-		return (NULL);
-	while (s[i] && i < len)
+	rlen = ((start + len) > slen) ? (slen - start) : len;
+	rslt = malloc((rlen + 1) * sizeof(char));
+	if (rslt == 0)
+		return (0);
+	while (start--)
+		s++;
+	temp = rslt;
+	while (rlen--)
 	{
-		arr[i] = s[(size_t)start + i];
-		i++;
+		*temp = *s;
+		temp++;
+		s++;
 	}
-	arr[i] = '\0';
-	return (arr);
+	*temp = '\0';
+	return (rslt);
 }
