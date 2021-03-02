@@ -1,66 +1,64 @@
 #include "cub3d.h"
 
-unsigned int	ft_pixel(t_all *s, double i)
+int				ft_true_height(t_all *s)
 {
-	int				index;
+	double	factor;
+	double	ang;
+	int		height;
+
+	ang = fabs((double)s->ray.i / ((double)s->win.x / 2) - 1);
+	ang = ang * ((FOV / 2) * M_PI / 180);
+	factor = s->hit.d * cos(ang);
+	height = round(s->win.y / factor);
+	return (height);
+}
+
+unsigned int	ft_get_color(t_all *s, double i)
+{
+	int pxid;
 
 	if (floor(s->hit.y) == s->hit.y)
 	{
-		index = 64 * floor(64 * i) + 64 * (s->hit.x - floor(s->hit.x));
+		pxid = XPM_SIZE * floor(XPM_SIZE * i) + XPM_SIZE * (s->hit.x - floor(s->hit.x));
 		if (s->ray.w == 1)
-			return (s->tex.s[index]);
+			return (s->tex.s[pxid]);
 		if (s->ray.w == 0)
-			return (s->tex.n[index]);
+			return (s->tex.n[pxid]);
 	}
-	else if (floor(s->hit.x) == s->hit.x)
+	if (floor(s->hit.x) == s->hit.x)
 	{
-		index = 64 * floor(64 * i) + 64 * (s->hit.y - floor(s->hit.y));
+		pxid = XPM_SIZE * floor(XPM_SIZE * i) + XPM_SIZE * (s->hit.y - floor(s->hit.y));
 		if (s->ray.v == 1)
-			return (s->tex.e[index]);
+			return (s->tex.e[pxid]);
 		if (s->ray.v == 0)
-			return (s->tex.w[index]);
+			return (s->tex.w[pxid]);
 	}
-	return (BLACK);
+	return (NO_COLOR);
 }
 
-void			ft_column(t_all *s, int size)
+void			ft_draw_column(t_all *s)
 {
-	unsigned int	color;
+	int				height;
 	int				start;
-	int				count;
+	int				steps;
 	int				x;
+	unsigned int	color;
 
-	start = s->win.x * (s->win.y - size) / 2;
-	if (size > s->win.y)
-		count = (size - s->win.y) / 2;
-	else
-		count = 0;
+	height = ft_true_height(s);
+	start = s->win.x * (s->win.y - height) / 2;
+	steps = (height > s->win.y) ? (height - s->win.y) / 2 : 0;
 	x = s->ray.i;
 	while (x < s->win.x * s->win.y)
 	{
 		color = s->tex.c;
-		if (x >= start && count < size)
+		if (x >= start && steps < height)
 		{
-			color = ft_pixel(s, (double)count / size);
-			count++;
+			color = ft_get_color(s, (double) steps / height);
+			steps++;
 		}
-		if (count == size)
+		if (steps == height)
 			color = s->tex.f;
-
-		s->img.adr[x] = mlx_get_color_value(s->mlx.ptr, color);
+		s->img.adr[x] = color;
 		x += s->win.x;
 	}
-}
-
-int				ft_size(t_all *s)
-{
-	double	correc;
-	double	angle;
-	int		size;
-
-	angle = fabs((double)s->ray.i / (s->win.x / 2) - 1);
-	angle = angle * (30 * M_PI / 180);
-	correc = s->hit.d * cos(angle);
-	size = round(s->win.y / correc);
-	return (size);
 }

@@ -1,130 +1,100 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   sprite.c                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: cclaude <cclaude@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/12/16 18:04:34 by cclaude           #+#    #+#             */
-/*   Updated: 2019/12/31 14:25:36 by cclaude          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "cub3d.h"
 
-unsigned int	ft_spixel(t_all *s, int index, unsigned int col)
+void	ft_save_ray(t_all *s)
 {
-	int	t;
-	int	r;
-	int	g;
-	int	b;
-
-	if (col >= NONE)
-		return (s->img.adr[index]);
-	else if (col < 256 * 256 * 256)
-		return (col);
-	t = col / (256 * 256 * 256);
-	r = (col / (256 * 256) % 256) * (1 - (double)t / 256);
-	g = (col / 256 % 256) * (1 - (double)t / 256);
-	b = (col % 256) * (1 - (double)t / 256);
-	r += (s->img.adr[index] / (256 * 256) % 256) * ((double)t / 256);
-	g += (s->img.adr[index] / 256 % 256) * ((double)t / 256);
-	b += (s->img.adr[index] % 256) * ((double)t / 256);
-	return (r * 256 * 256 + g * 256 + b);
+	s->stk[s->ray.i].x = s->ray.x;
+	s->stk[s->ray.i].y = s->ray.y;
+	s->stk[s->ray.i].d = s->hit.d;
 }
 
-void			ft_sdraw(t_all *s, int loc, double dist)
+void	ft_draw_sprite(t_all *s, int place, double spr_d)
 {
-	unsigned int	col;
 	double			size;
-	int				index;
+	unsigned int	color;
+	unsigned int	pxid;
 	int				i;
 	int				j;
 
+	size = (s->win.y / spr_d);
+	place = place - size / 2;
 	i = 0;
-	j = 0;
-	size = s->win.y / dist / 2;
-	loc = loc - size / 2;
 	while (i < size)
 	{
-		while ((loc + i >= 0 && loc + i < s->win.x) &&
-				(j < size && s->stk[loc + i].d > dist))
+		j = 0;
+		while ((place + i >= 0 && place + i < s->win.x) &&
+			   (j < size && s->stk[place + i].d > spr_d))
 		{
-			col = 64 * floor(64 * (double)j / size) + (double)i / size * 64;
-			col = s->tex.i[col];
-			index = loc + i + (s->win.y / 2 + j) * s->win.x;
-			if (index < s->win.x * s->win.y)
-				s->img.adr[index] = ft_spixel(s, index, col);
+			color = XPM_SIZE * floor(XPM_SIZE * (double)j / size) + XPM_SIZE * (double)i / size;
+			color = s->tex.i[color];
+			pxid = place + i + (s->win.y / 2 - floor(size / 2) + j) * s->win.x;
+			if (pxid < s->win.x * s->win.y)
+				s->img.adr[pxid] = (color == NO_COLOR) ? s->img.adr[pxid] : color;
 			j++;
 		}
 		i++;
-		j = 0;
 	}
 }
 
-void			ft_slocate(t_all *s, double dirx, double diry, double dist)
+int		ft_sprite_place(t_all *s, double spr_x, double spr_y, double spr_d)
 {
-	double	angle;
+	double	ang;
+	double	dir_x;
+	double	dir_y;
 
-	dirx = (dirx - s->pos.x) / dist;
-	diry = (diry - s->pos.y) / dist;
-	if (diry <= 0)
-		angle = acos(dirx) * 180 / M_PI;
+	dir_x = (spr_x - s->pos.x) / spr_d;
+	dir_y = (spr_y - s->pos.y) / spr_d;
+	if (dir_y <= 0)
+		ang = acos(dir_x) * 180 / M_PI;
 	else
-		angle = 360 - acos(dirx) * 180 / M_PI;
-	angle = s->dir.a - angle + 33;
-	if (angle >= 180)
-		angle -= 360;
-	else if (angle <= -180)
-		angle += 360;
-	ft_sdraw(s, angle * s->win.x / 66, dist);
+		ang = 360 - acos(dir_x) * 180 / M_PI;
+	ang = s->dir.a - ang + FOV / 2;
+	if (ang >= 180)
+		ang -= 360;
+	if (ang <= -180)
+		ang += 360;
+	return ((ang / FOV) * s->win.x);
 }
 
-void			ft_sorder(t_all *s)
+void	ft_sort_sprites(t_all *s)
 {
-	t_spr	tmp;
+	t_spr	temp;
 	int		i;
-	int		j;
 
 	i = 0;
 	while (i < s->map.spr - 1)
 	{
-		j = i + 1;
-		while (j < s->map.spr)
+		if (s->spr[i].d < s->spr[i + 1].d)
 		{
-			if (s->spr[i].d < s->spr[j].d)
-			{
-				tmp = s->spr[i];
-				s->spr[i] = s->spr[j];
-				s->spr[j] = tmp;
-			}
-			j++;
+			temp = s->spr[i];
+			s->spr[i] = s->spr[i + 1];
+			s->spr[i + 1] = temp;
+			i = 0;
 		}
 		i++;
 	}
 }
 
-void			ft_sprite(t_all *s)
+void	ft_add_sprites(t_all *s)
 {
-	int		i;
-	double	dist;
+	int	i;
+	int	place;
 
-	dist = hypot(s->dir.x, s->dir.y);
 	if (s->dir.y <= 0)
-		s->dir.a = acos(s->dir.x / dist) * 180 / M_PI;
+		s->dir.a = acos(s->dir.x) * 180 / M_PI;
 	else
-		s->dir.a = 360 - acos(s->dir.x / dist) * 180 / M_PI;
+		s->dir.a = 360 - acos(s->dir.x) * 180 / M_PI;
 	i = 0;
 	while (i < s->map.spr)
 	{
 		s->spr[i].d = hypot(s->spr[i].x - s->pos.x, s->spr[i].y - s->pos.y);
 		i++;
 	}
-	ft_sorder(s);
+	ft_sort_sprites(s);
 	i = 0;
 	while (i < s->map.spr)
 	{
-		ft_slocate(s, s->spr[i].x, s->spr[i].y, s->spr[i].d);
+		place = ft_sprite_place(s, s->spr[i].x, s->spr[i].y, s->spr[i].d);
+		ft_draw_sprite(s, place, s->spr[i].d);
 		i++;
 	}
 	free(s->stk);

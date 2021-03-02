@@ -1,5 +1,5 @@
 #SETUP
-NAME		= cub3D
+NAME		= cub3d
 CC			= gcc
 #CFLAGS		= -Wall -Wextra -Werror
 CFLAGS		= 
@@ -12,7 +12,6 @@ FLS			= cub3d.c\
 			parse_map.c\
 			parse_tools.c\
 			parse_check.c\
-			gnl.c\
 			key.c\
 			screen.c\
 			screen_col.c\
@@ -27,25 +26,34 @@ OBJS		= $(SRCS:.c=.o)
 MLX_DIR		= mlx_opengl/
 MLX			= libmlx.a
 
+LIBFT_DIR	= libft/
+LIBFT		= libft.a
+
 #COMMANDS
 all:		$(NAME)
 
-$(NAME):	$(MLX) $(OBJS)
-			$(CC) $(CFLAGS) $(CFLAGS_APP) $(MLX) $(OBJS) -o $(NAME)
-			./cub3d maps/map.cub
+$(NAME):	$(MLX) $(LIBFT) $(OBJS)
+			$(CC) $(CFLAGS) $(CFLAGS_APP) $(MLX) $(LIBFT) $(OBJS) -o $(NAME)
+# 			./cub3d maps/map.cub
 
 $(MLX):
 			$(MAKE) -C $(MLX_DIR)
 			mv $(MLX_DIR)$(MLX) $(MLX)
 
+$(LIBFT):
+			$(MAKE) -C $(LIBFT_DIR)
+			mv $(LIBFT_DIR)$(LIBFT) $(LIBFT)
+
 clean:
 			$(RM) $(OBJS)
 			$(MAKE) -C $(MLX_DIR) clean
+			$(MAKE) -C $(LIBFT_DIR) clean
 			$(RM) bitmap.bmp
 
 fclean:		clean
 			$(RM) $(NAME)
 #			$(RM) $(MLX)
+#			$(RM) $(LIBFT)
 
 re:			fclean all
 
