@@ -1,23 +1,21 @@
 #SETUP
 NAME		= cub3d
 CC			= gcc
-#CFLAGS		= -Wall -Wextra -Werror
-CFLAGS		= 
+CFLAGS		= -Wall -Wextra -Werror
 CFLAGS_APP	= -framework OpenGL -framework AppKit
 RM			= rm -f
 
 #FILES
-FLS			= cub3d.c\
-			parse.c\
+FLS			= add_sprites.c\
+			control.c\
+			cub3d.c\
+			draw_column.c\
+			draw_image.c\
 			parse_map.c\
-			parse_tools.c\
-			parse_check.c\
-			key.c\
-			screen.c\
-			screen_col.c\
-			sprite.c\
-			bitmap.c\
-			tools.c
+			parser.c\
+			read_map_file.c\
+			save_bmp.c\
+			utils.c
 
 SRCS_DIR	= sources/
 SRCS		= $(addprefix $(SRCS_DIR), $(FLS))
@@ -34,7 +32,7 @@ all:		$(NAME)
 
 $(NAME):	$(MLX) $(LIBFT) $(OBJS)
 			$(CC) $(CFLAGS) $(CFLAGS_APP) $(MLX) $(LIBFT) $(OBJS) -o $(NAME)
-# 			./cub3d maps/map.cub
+# 			./cub3d maps/map_mode.cub
 
 $(MLX):
 			$(MAKE) -C $(MLX_DIR)
@@ -45,13 +43,13 @@ $(LIBFT):
 			mv $(LIBFT_DIR)$(LIBFT) $(LIBFT)
 
 clean:
-			$(RM) $(OBJS)
-			$(MAKE) -C $(MLX_DIR) clean
-			$(MAKE) -C $(LIBFT_DIR) clean
-			$(RM) bitmap.bmp
+# 			$(RM) $(OBJS)
+# 			$(MAKE) -C $(MLX_DIR) clean
+# 			$(MAKE) -C $(LIBFT_DIR) clean
+# 			$(RM) bitmap.bmp
 
 fclean:		clean
-			$(RM) $(NAME)
+# 			$(RM) $(NAME)
 #			$(RM) $(MLX)
 #			$(RM) $(LIBFT)
 

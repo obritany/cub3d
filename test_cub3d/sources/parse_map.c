@@ -1,53 +1,53 @@
 #include "cub3d.h"
 
-int		ft_xpm(t_all *s, unsigned int **adr, char *file)
+int		parse_xpm(t_game *gm, unsigned int **txr_adr, char *path)
 {
 	void	*img;
-	int		tab[5];
+	int		info[5];
 
-	if (ft_strncmp(ft_strrchr(file, '.'), ".xpm", 4))
+	if (ft_strncmp(ft_strrchr(path, '.'), ".xpm", 4))
 		return (-1);
-	img = mlx_xpm_file_to_image(s->mlx.ptr, file, &tab[0], &tab[1]);
-	if (img == 0 || tab[0] != XPM_SIZE || tab[1] != XPM_SIZE)
+	img = mlx_xpm_file_to_image(gm->mlx.ptr, path, &info[0], &info[1]);
+	if (img == 0 || info[0] != XPM_SIZE || info[1] != XPM_SIZE)
 		return (-1);
-	*adr = (unsigned int *)mlx_get_data_addr(img, &tab[2], &tab[3], &tab[4]);
+	*txr_adr = (unsigned int *)mlx_get_data_addr(img, &info[2], &info[3], &info[4]);
 	free(img);
 	return (0);
 }
 
-int		ft_texture(t_all *s, unsigned int **adr, char *line, int *i)
+int		parse_txr_path(t_game *gm, unsigned int **txr_adr, char *line, int *i)
 {
-	char	*file;
+	char	*path;
 	int		j;
 
-	if (*adr != 0)
+	if (*txr_adr != 0)
 		return (-5);
 	(*i) += 2;
-	ft_skip_sp(line, i);
+	skip_space(line, i);
 	j = *i;
 	while (line[*i] && line[*i] != ' ')
 		(*i)++;
-	if (!(file = malloc(sizeof(char) * (*i - j + 1))))
+	if (!(path = malloc(sizeof(char) * (*i - j + 1))))
 		return (-6);
 	*i = j;
 	j = 0;
 	while (line[*i] && line[*i] != ' ')
-		file[j++] = line[(*i)++];
-	file[j] = '\0';
-	j = ft_xpm(s, adr, file);
-	free(file);
+		path[j++] = line[(*i)++];
+	path[j] = '\0';
+	j = parse_xpm(gm, txr_adr, path);
+	free(path);
 	return (j == -1 ? -5 : 0);
 }
 
-char	*ft_slab(t_all *s, char *line, int *i)
+char	*parse_map_line(t_game *gm, char *line, int *i)
 {
 	int		len;
-	char	*slab;
+	char	*map_line;
 	int		j;
 
 	len = ft_strlen(line);
-	s->map.x = (len > s->map.x) ? len : s->map.x;
-	if (!(slab = malloc(sizeof(char) * (len + 1))))
+	gm->map.x = (len > gm->map.x) ? len : gm->map.x;
+	if (!(map_line = malloc(sizeof(char) * (len + 1))))
 		return (0);
 	j = 0;
 	while (line[*i])
@@ -56,41 +56,41 @@ char	*ft_slab(t_all *s, char *line, int *i)
 			line[*i] == 'N' || line[*i] == 'S' ||
 			line[*i] == 'W' || line[*i] == 'E' ||
 			line[*i] == ' ')
-			slab[j++] = line[*i];
+			map_line[j++] = line[*i];
 		else
 			return (0);
 		if (line[*i] == '2')
-			s->map.spr++;
+			gm->map.sprt_num++;
 		(*i)++;
 	}
-	slab[j] = '\0';
-	return (slab);
+	map_line[j] = '\0';
+	return (map_line);
 }
 
-int		ft_parse_map(t_all *s, char *line, int *i)
+int		parse_map(t_game *gm, char *line, int *i)
 {
 	char	**temp;
 	int		j;
 
 	*i = 0;
-	s->err.m = 1;
-	if (!(temp = malloc(sizeof(char *) * (s->map.y + 2))))
-		return (-6);
 	j = 0;
-	while (j < s->map.y)
+	gm->error.map_mode = 1;
+	if (!(temp = malloc(sizeof(char *) * (gm->map.y + 2))))
+		return (-6);
+	while (j < gm->map.y)
 	{
-		temp[j] = s->map.tab[j];
+		temp[j] = gm->map.array[j];
 		j++;
 	}
-	if ((temp[s->map.y] = ft_slab(s, line, i)) == 0)
+	if ((temp[gm->map.y] = parse_map_line(gm, line, i)) == 0)
 	{
 		free(temp);
 		return (-3);
 	}
-	temp[s->map.y + 1] = 0;
-	if (s->map.y != 0)
-		free(s->map.tab);
-	s->map.tab = temp;
-	s->map.y++;
+	temp[gm->map.y + 1] = 0;
+	if (gm->map.y != 0)
+		free(gm->map.array);
+	gm->map.array = temp;
+	gm->map.y++;
 	return (0);
 }

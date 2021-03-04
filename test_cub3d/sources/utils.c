@@ -1,6 +1,6 @@
 #include "cub3d.h"
 
-int		ft_error(int error)
+int		print_error(int error)
 {
 	if (error == -1)
 		ft_putstr_fd("Error: read file problem\n", 2);
@@ -28,7 +28,7 @@ int		ft_atoi_line(char *line, int *i)
 	int	rslt;
 
 	rslt = 0;
-	ft_skip_sp(line, i);
+	skip_space(line, i);
 	while (line[*i] >= '0' && line[*i] <= '9')
 	{
 		rslt = rslt * 10 + (line[*i] - 48);
@@ -37,7 +37,7 @@ int		ft_atoi_line(char *line, int *i)
 	return (rslt);
 }
 
-int		ft_skip_sp(char *line, int *i)
+int		skip_space(char *line, int *i)
 {
 	while (line[*i] == ' ' || (line[*i] >= '\t' && line[*i] <= '\r'))
 		(*i)++;
