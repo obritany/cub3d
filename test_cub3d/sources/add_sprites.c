@@ -11,7 +11,7 @@ void	draw_sprite(t_game *gm, int place, double spr_d)
 {
 	double			size;
 	unsigned int	color;
-	int				pxid;
+	unsigned int	pxid;
 	int				i;
 	int				j;
 
@@ -27,7 +27,7 @@ void	draw_sprite(t_game *gm, int place, double spr_d)
 			color = XPM_SIZE * floor(XPM_SIZE * (double)j / size) + XPM_SIZE * (double)i / size;
 			color = gm->txr.sprt[color];
 			pxid = place + i + (gm->win.y / 2 - floor(size / 2) + j) * gm->win.x;
-			if (pxid < gm->win.x * gm->win.y)
+			if (pxid < (unsigned int)(gm->win.x * gm->win.y))
 				gm->img.adr[pxid] = (color == NO_COLOR) ? gm->img.adr[pxid] : color;
 			j++;
 		}

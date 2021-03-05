@@ -6,9 +6,9 @@ CFLAGS_APP	= -framework OpenGL -framework AppKit
 RM			= rm -f
 
 #FILES
-FLS			= add_sprites.c\
+FLS			= cub3d.c\
+            add_sprites.c\
 			control.c\
-			cub3d.c\
 			draw_column.c\
 			draw_image.c\
 			parse_map.c\
@@ -21,7 +21,7 @@ SRCS_DIR	= sources/
 SRCS		= $(addprefix $(SRCS_DIR), $(FLS))
 OBJS		= $(SRCS:.c=.o)
 
-MLX_DIR		= mlx_opengl/
+MLX_DIR		= mlx_gl/
 MLX			= libmlx.a
 
 LIBFT_DIR	= libft/

@@ -1,12 +1,12 @@
 R  1080 720
-NO ./textures/textures1/north.xpm
-SO ./textures/textures1/south.xpm
-WE ./textures/textures1/west.xpm
-EA ./textures/textures1/east.xpm
+NO ./textures/north.xpm
+SO ./textures/south.xpm
+WE ./textures/west.xpm
+EA ./textures/east.xpm
 
-S ./textures/textures1/sprite.xpm
-F 224,172,105
-C 205,249,255
+S ./textures/sprite.xpm
+F 105,105,105
+C 200,235,235
 
         1111111111111111111111111
         1000000000110000000000001

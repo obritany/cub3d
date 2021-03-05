@@ -15,7 +15,7 @@ int				get_true_height(t_game *gm)
 
 unsigned int	get_color(t_game *gm, double i)
 {
-	int pxid;
+	unsigned int pxid;
 
 	if (floor(gm->hit.y) == gm->hit.y)
 	{
