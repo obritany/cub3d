@@ -1,14 +1,26 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cub3d.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: obritany <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/03/06 16:11:30 by obritany          #+#    #+#             */
+/*   Updated: 2021/03/06 16:17:21 by obritany         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef CUB3D_H
 # define CUB3D_H
 
 # include "../libft/libft.h"
-# include "../mlx_gl/mlx.h"
+# include "../libmlx/mlx.h"
 # include <stdlib.h>
 # include <unistd.h>
 # include <fcntl.h>
 # include <math.h>
 
-# define XPM_SIZE 64
+# define XPM 64
 # define NO_COLOR 0xFF000000
 
 # define ESC	53
@@ -43,7 +55,7 @@ typedef struct	s_img
 
 typedef struct	s_map
 {
-	char	**array;
+	char	**arr;
 	int		x;
 	int		y;
 	int		sprt_num;
@@ -129,7 +141,8 @@ typedef struct	s_game
 void			refresh_frame(t_game *gm, int mode);
 int				read_map_file(t_game *gm, char *map);
 int				parse_map(t_game *gm, char *line, int *i);
-int				parse_txr_path(t_game *gm, unsigned int **txr_adr, char *line, int *i);
+int				parse_txr_path(t_game *gm, unsigned int **txr_adr,
+								char *line, int *i);
 int				parse_sprites(t_game *gm);
 void			parse_position(t_game *gm);
 int				parse_colors(unsigned int *color, char *line, int *i);

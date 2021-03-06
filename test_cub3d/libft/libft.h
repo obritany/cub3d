@@ -77,6 +77,7 @@ t_list			*ft_lstmap(t_list *lst, void *(*f)(void *),
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 1
 # endif
+
 int				get_next_line(int fd, char **line);
 char			**ft_clear(char **tab);
 

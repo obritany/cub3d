@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   control.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: obritany <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/03/06 16:11:08 by obritany          #+#    #+#             */
+/*   Updated: 2021/03/06 16:11:10 by obritany         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 
 void	make_turn(t_game *gm, double c)
@@ -16,11 +28,11 @@ void	move_fb(t_game *gm, double dir)
 	char new_pos;
 
 	gm->pos.x += dir * (gm->dir.x * MV_SPD / 100);
-	new_pos = gm->map.array[(int)floor(gm->pos.y)][(int)floor(gm->pos.x)];
+	new_pos = gm->map.arr[(int)floor(gm->pos.y)][(int)floor(gm->pos.x)];
 	if (new_pos == '1' || new_pos == '2')
 		gm->pos.x -= dir * (gm->dir.x * MV_SPD / 100);
 	gm->pos.y += dir * (gm->dir.y * MV_SPD / 100);
-	new_pos = gm->map.array[(int)floor(gm->pos.y)][(int)floor(gm->pos.x)];
+	new_pos = gm->map.arr[(int)floor(gm->pos.y)][(int)floor(gm->pos.x)];
 	if (new_pos == '1' || new_pos == '2')
 		gm->pos.y -= dir * (gm->dir.y * MV_SPD / 100);
 }
@@ -30,11 +42,11 @@ void	move_lr(t_game *gm, double dir)
 	char new_pos;
 
 	gm->pos.x -= dir * (gm->dir.y * MV_SPD / 100);
-	new_pos = gm->map.array[(int)floor(gm->pos.y)][(int)floor(gm->pos.x)];
+	new_pos = gm->map.arr[(int)floor(gm->pos.y)][(int)floor(gm->pos.x)];
 	if (new_pos == '1' || new_pos == '2')
 		gm->pos.x += dir * (gm->dir.y * MV_SPD / 100);
 	gm->pos.y += dir * (gm->dir.x * MV_SPD / 100);
-	new_pos = gm->map.array[(int)floor(gm->pos.y)][(int)floor(gm->pos.x)];
+	new_pos = gm->map.arr[(int)floor(gm->pos.y)][(int)floor(gm->pos.x)];
 	if (new_pos == '1' || new_pos == '2')
 		gm->pos.y -= dir * (gm->dir.x * MV_SPD / 100);
 }
@@ -45,8 +57,8 @@ int		close_app(t_game *gm, int window)
 
 	i = 0;
 	while (i < gm->map.y)
-		free(gm->map.array[i++]);
-	free(gm->map.array);
+		free(gm->map.arr[i++]);
+	free(gm->map.arr);
 	free(gm->txr.north);
 	free(gm->txr.south);
 	free(gm->txr.east);
@@ -59,7 +71,7 @@ int		close_app(t_game *gm, int window)
 	return (1);
 }
 
-int	control(int key, t_game *gm)
+int		control(int key, t_game *gm)
 {
 	if (key == W)
 		move_fb(gm, 1);

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   add_sprites.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: obritany <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/03/06 16:10:41 by obritany          #+#    #+#             */
+/*   Updated: 2021/03/06 16:10:43 by obritany         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 
 void	save_ray(t_game *gm)
@@ -10,32 +22,32 @@ void	save_ray(t_game *gm)
 void	draw_sprite(t_game *gm, int place, double spr_d)
 {
 	double			size;
-	unsigned int	color;
-	unsigned int	pxid;
+	unsigned int	clr;
+	unsigned int	id;
 	int				i;
 	int				j;
 
-	size = (gm->win.y / spr_d);
+	size = gm->win.y / spr_d;
 	place = place - size / 2;
 	i = 0;
 	while (i < size)
 	{
 		j = 0;
 		while ((place + i >= 0 && place + i < gm->win.x) &&
-			   (j < size && gm->raycast[place + i].d > spr_d))
+			(j < size && gm->raycast[place + i].d > spr_d))
 		{
-			color = XPM_SIZE * floor(XPM_SIZE * (double)j / size) + XPM_SIZE * (double)i / size;
-			color = gm->txr.sprt[color];
-			pxid = place + i + (gm->win.y / 2 - floor(size / 2) + j) * gm->win.x;
-			if (pxid < (unsigned int)(gm->win.x * gm->win.y))
-				gm->img.adr[pxid] = (color == NO_COLOR) ? gm->img.adr[pxid] : color;
+			clr = XPM * floor(XPM * (double)j / size) + XPM * (double)i / size;
+			clr = gm->txr.sprt[clr];
+			id = place + i + (gm->win.y / 2 - floor(size / 2) + j) * gm->win.x;
+			if (id < (unsigned int)(gm->win.x * gm->win.y))
+				gm->img.adr[id] = (clr == NO_COLOR) ? gm->img.adr[id] : clr;
 			j++;
 		}
 		i++;
 	}
 }
 
-int		get_sprite_place(t_game *gm, double spr_x, double spr_y, double spr_d)
+int		get_sprt_plc(t_game *gm, double spr_x, double spr_y, double spr_d)
 {
 	double	ang;
 	double	dir_x;
@@ -86,14 +98,15 @@ void	add_sprites(t_game *gm)
 	i = 0;
 	while (i < gm->map.sprt_num)
 	{
-		gm->sprt[i].d = hypot(gm->sprt[i].x - gm->pos.x, gm->sprt[i].y - gm->pos.y);
+		gm->sprt[i].d =
+				hypot(gm->sprt[i].x - gm->pos.x, gm->sprt[i].y - gm->pos.y);
 		i++;
 	}
 	sort_sprites(gm);
 	i = 0;
 	while (i < gm->map.sprt_num)
 	{
-		place = get_sprite_place(gm, gm->sprt[i].x, gm->sprt[i].y, gm->sprt[i].d);
+		place = get_sprt_plc(gm, gm->sprt[i].x, gm->sprt[i].y, gm->sprt[i].d);
 		draw_sprite(gm, place, gm->sprt[i].d);
 		i++;
 	}

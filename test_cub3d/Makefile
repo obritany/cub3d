@@ -21,37 +21,35 @@ SRCS_DIR	= sources/
 SRCS		= $(addprefix $(SRCS_DIR), $(FLS))
 OBJS		= $(SRCS:.c=.o)
 
-MLX_DIR		= mlx_gl/
-MLX			= libmlx.a
+MLX_DIR		= libmlx/
+MLX			= $(MLX_DIR)libmlx.a
 
 LIBFT_DIR	= libft/
-LIBFT		= libft.a
+LIBFT		= $(LIBFT_DIR)libft.a
 
 #COMMANDS
 all:		$(NAME)
 
 $(NAME):	$(MLX) $(LIBFT) $(OBJS)
 			$(CC) $(CFLAGS) $(CFLAGS_APP) $(MLX) $(LIBFT) $(OBJS) -o $(NAME)
-# 			./cub3d maps/map_mode.cub
 
 $(MLX):
 			$(MAKE) -C $(MLX_DIR)
-			mv $(MLX_DIR)$(MLX) $(MLX)
 
 $(LIBFT):
 			$(MAKE) -C $(LIBFT_DIR)
-			mv $(LIBFT_DIR)$(LIBFT) $(LIBFT)
 
 clean:
-# 			$(RM) $(OBJS)
-# 			$(MAKE) -C $(MLX_DIR) clean
-# 			$(MAKE) -C $(LIBFT_DIR) clean
-# 			$(RM) bitmap.bmp
+			$(RM) $(OBJS)
+			$(MAKE) -C $(MLX_DIR) clean
+			$(MAKE) -C $(LIBFT_DIR) clean
+			$(RM) screen.bmp
 
 fclean:		clean
-# 			$(RM) $(NAME)
-#			$(RM) $(MLX)
-#			$(RM) $(LIBFT)
+			$(RM) $(NAME)
+			@$(RM) $(MLX)
+			@$(RM) $(LIBFT)
+			@echo Project cleaned!
 
 re:			fclean all
 

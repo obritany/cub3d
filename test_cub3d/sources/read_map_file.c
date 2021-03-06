@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   read_map_file.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: obritany <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/03/06 16:12:15 by obritany          #+#    #+#             */
+/*   Updated: 2021/03/06 16:12:17 by obritany         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 
 int		check_map(t_game *gm)
@@ -11,19 +23,19 @@ int		check_map(t_game *gm)
 		j = -1;
 		while (++j < gm->map.x)
 		{
-			if (i == 0 && gm->map.array[i][j] != '1' && gm->map.array[i][j] != ' ')
+			if ((i == 0 &&
+				gm->map.arr[i][j] != '1' && gm->map.arr[i][j] != ' ') ||
+				(i == gm->map.y - 1 &&
+				gm->map.arr[i][j] != '1' && gm->map.arr[i][j] != ' ') ||
+				(j == 0 &&
+				gm->map.arr[i][j] != '1' && gm->map.arr[i][j] != ' ') ||
+				(j == gm->map.x - 1 &&
+				gm->map.arr[i][j] != '1' && gm->map.arr[i][j] != ' ') ||
+				((i > 0 && i < gm->map.y - 1 && j > 0 && j < gm->map.x - 1 &&
+				gm->map.arr[i][j] != ' ' && gm->map.arr[i][j] != '1') &&
+				(gm->map.arr[i - 1][j] == ' ' || gm->map.arr[i + 1][j] == ' ' ||
+				gm->map.arr[i][j - 1] == ' ' || gm->map.arr[i][j + 1] == ' ')))
 				return (-1);
-			if (i == gm->map.y - 1 && gm->map.array[i][j] != '1' && gm->map.array[i][j] != ' ')
-				return (-1);
-			if (j == 0 && gm->map.array[i][j] != '1' && gm->map.array[i][j] != ' ')
-				return (-1);
-			if (j == gm->map.x - 1 && gm->map.array[i][j] != '1' && gm->map.array[i][j] != ' ')
-				return (-1);
-			if (i > 0 && i < gm->map.y - 1 && j > 0 && j < gm->map.x - 1 &&
-				gm->map.array[i][j] != ' ' && gm->map.array[i][j] != '1')
-				if (gm->map.array[i - 1][j] == ' ' || gm->map.array[i + 1][j] == ' ' ||
-					gm->map.array[i][j - 1] == ' ' || gm->map.array[i][j + 1] == ' ')
-					return (-1);
 		}
 	}
 	return (1);
@@ -45,19 +57,20 @@ int		check_data(t_game *gm)
 	return (1);
 }
 
-int fill_map(t_game *gm) {
+int		fill_map(t_game *gm)
+{
 	char	*temp;
 	int		i;
 
 	i = 0;
 	while (i < gm->map.y)
 	{
-		while ((int)ft_strlen(gm->map.array[i]) < gm->map.x)
+		while ((int)ft_strlen(gm->map.arr[i]) < gm->map.x)
 		{
-			temp = gm->map.array[i];
-			gm->map.array[i] = ft_strjoin(gm->map.array[i], " ");
+			temp = gm->map.arr[i];
+			gm->map.arr[i] = ft_strjoin(gm->map.arr[i], " ");
 			free(temp);
-			if (gm->map.array[i] == 0)
+			if (gm->map.arr[i] == 0)
 				return (print_error(-6));
 		}
 		i++;

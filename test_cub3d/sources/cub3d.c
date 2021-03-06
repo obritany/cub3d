@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cub3d.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: obritany <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/03/06 16:11:21 by obritany          #+#    #+#             */
+/*   Updated: 2021/03/06 16:11:23 by obritany         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 
 void	refresh_frame(t_game *gm, int mode)
@@ -42,7 +54,7 @@ int		setup_mlx(t_game gm, char *map, int mode)
 
 void	setup_game(t_game gm, char *cub, int bmp)
 {
-	gm.map.array = 0;
+	gm.map.arr = 0;
 	gm.map.x = 0;
 	gm.map.y = 0;
 	gm.map.sprt_num = 0;
@@ -77,13 +89,13 @@ void	load_game(char *map, int mode)
 int		main(int argc, char *argv[])
 {
 	if (argc == 3 &&
-		!ft_strncmp(ft_strrchr(argv[1], '.'), ".cub", 4) &&
+			!ft_strncmp(ft_strrchr(argv[1], '.'), ".cub", 4) &&
 			!ft_strncmp(argv[2], "--save", 6))
 		load_game(argv[1], 1);
 	else if (argc == 2 &&
-			 !ft_strncmp(ft_strrchr(argv[1], '.'), ".cub", 4))
+			!ft_strncmp(ft_strrchr(argv[1], '.'), ".cub", 4))
 		load_game(argv[1], 0);
 	else
-		ft_putstr_fd("Error : Invalid arguments\n", 2);
+		print_error(-10);
 	return (0);
 }

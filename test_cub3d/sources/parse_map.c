@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_map.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: obritany <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/03/06 16:11:58 by obritany          #+#    #+#             */
+/*   Updated: 2021/03/06 16:12:00 by obritany         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 
 int		parse_xpm(t_game *gm, unsigned int **txr_adr, char *path)
@@ -8,9 +20,10 @@ int		parse_xpm(t_game *gm, unsigned int **txr_adr, char *path)
 	if (ft_strncmp(ft_strrchr(path, '.'), ".xpm", 4))
 		return (-1);
 	img = mlx_xpm_file_to_image(gm->mlx.ptr, path, &info[0], &info[1]);
-	if (img == 0 || info[0] != XPM_SIZE || info[1] != XPM_SIZE)
+	if (img == 0 || info[0] != XPM || info[1] != XPM)
 		return (-1);
-	*txr_adr = (unsigned int *)mlx_get_data_addr(img, &info[2], &info[3], &info[4]);
+	*txr_adr = (unsigned int *)
+			mlx_get_data_addr(img, &info[2], &info[3], &info[4]);
 	free(img);
 	return (0);
 }
@@ -79,7 +92,7 @@ int		parse_map(t_game *gm, char *line, int *i)
 		return (-6);
 	while (j < gm->map.y)
 	{
-		temp[j] = gm->map.array[j];
+		temp[j] = gm->map.arr[j];
 		j++;
 	}
 	if ((temp[gm->map.y] = parse_map_line(gm, line, i)) == 0)
@@ -89,8 +102,8 @@ int		parse_map(t_game *gm, char *line, int *i)
 	}
 	temp[gm->map.y + 1] = 0;
 	if (gm->map.y != 0)
-		free(gm->map.array);
-	gm->map.array = temp;
+		free(gm->map.arr);
+	gm->map.arr = temp;
 	gm->map.y++;
 	return (0);
 }

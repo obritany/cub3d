@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: obritany <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/03/06 16:12:23 by obritany          #+#    #+#             */
+/*   Updated: 2021/03/06 16:12:24 by obritany         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 
 int		print_error(int error)
@@ -20,6 +32,8 @@ int		print_error(int error)
 		ft_putstr_fd("Error: resolution problem\n", 2);
 	if (error == -9)
 		ft_putstr_fd("Error: position problem\n", 2);
+	if (error == -10)
+		ft_putstr_fd("Error: arguments problem\n", 2);
 	return (-1);
 }
 

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   draw_column.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: obritany <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/03/06 16:11:48 by obritany          #+#    #+#             */
+/*   Updated: 2021/03/06 16:11:49 by obritany         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 
 int				get_true_height(t_game *gm)
@@ -19,7 +31,7 @@ unsigned int	get_color(t_game *gm, double i)
 
 	if (floor(gm->hit.y) == gm->hit.y)
 	{
-		pxid = XPM_SIZE * floor(XPM_SIZE * i) + XPM_SIZE * (gm->hit.x - floor(gm->hit.x));
+		pxid = XPM * floor(XPM * i) + XPM * (gm->hit.x - floor(gm->hit.x));
 		if (gm->ray.s == 1)
 			return (gm->txr.south[pxid]);
 		if (gm->ray.s == 0)
@@ -27,7 +39,7 @@ unsigned int	get_color(t_game *gm, double i)
 	}
 	if (floor(gm->hit.x) == gm->hit.x)
 	{
-		pxid = XPM_SIZE * floor(XPM_SIZE * i) + XPM_SIZE * (gm->hit.y - floor(gm->hit.y));
+		pxid = XPM * floor(XPM * i) + XPM * (gm->hit.y - floor(gm->hit.y));
 		if (gm->ray.e == 1)
 			return (gm->txr.east[pxid]);
 		if (gm->ray.e == 0)
@@ -53,7 +65,7 @@ void			draw_column(t_game *gm)
 		color = gm->txr.up;
 		if (x >= start && steps < height)
 		{
-			color = get_color(gm, (double) steps / height);
+			color = get_color(gm, (double)steps / height);
 			steps++;
 		}
 		if (steps == height)

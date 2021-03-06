@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: obritany <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/03/06 16:12:07 by obritany          #+#    #+#             */
+/*   Updated: 2021/03/06 16:12:09 by obritany         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 
 void	parse_position(t_game *gm)
@@ -12,7 +24,7 @@ void	parse_position(t_game *gm)
 		j = -1;
 		while (++j < gm->map.x)
 		{
-			chr = gm->map.array[i][j];
+			chr = gm->map.arr[i][j];
 			if (chr != 'N' && chr != 'E' && chr != 'S' && chr != 'W')
 				continue ;
 			gm->pos.y = (double)i + 0.5;
@@ -77,7 +89,7 @@ int		parse_sprites(t_game *gm)
 		k = 0;
 		while (k < gm->map.x)
 		{
-			if (gm->map.array[j][k] == '2')
+			if (gm->map.arr[j][k] == '2')
 			{
 				gm->sprt[i].y = (double)j + 0.5;
 				gm->sprt[i++].x = (double)k + 0.5;
