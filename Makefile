@@ -30,6 +30,7 @@ FLS			= cub3d.c\
 			utils.c
 
 SRCS_DIR	= sources/
+HEADER		= $(SRCS_DIR)cub3d.h
 SRCS		= $(addprefix $(SRCS_DIR), $(FLS))
 OBJS		= $(SRCS:.c=.o)
 
@@ -40,15 +41,13 @@ LIBFT_DIR	= libft/
 LIBFT		= $(LIBFT_DIR)libft.a
 
 #COMMANDS
-all:		$(NAME)
+all:		tools $(NAME)
 
-$(NAME):	$(MLX) $(LIBFT) $(OBJS)
+$(NAME):	$(MLX) $(LIBFT) $(HEADER) $(OBJS)
 			$(CC) $(CFLAGS) $(CFLAGS_APP) $(MLX) $(LIBFT) $(OBJS) -o $(NAME)
 
-$(MLX):
-			$(MAKE) -C $(MLX_DIR)
-
-$(LIBFT):
+tools:
+			#$(MAKE) -C $(MLX_DIR)
 			$(MAKE) -C $(LIBFT_DIR)
 
 clean:
@@ -59,9 +58,8 @@ clean:
 
 fclean:		clean
 			$(RM) $(NAME)
-			@$(RM) $(MLX)
-			@$(RM) $(LIBFT)
-			@echo Project cleaned!
+			#$(RM) $(MLX)
+			$(RM) $(LIBFT)
 
 re:			fclean all
 
